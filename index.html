@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<!--
+	Story by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+
+	The code is based on the template obtained on html5up.net
+-->
+<html>
+	<head>
+		<title>your weather cat</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+			<div id="wrapper" class="divided">
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen onload-image-fade-in onload-content-fade-right">
+						<div class="content">
+							<strong><h1>hi, this is your weather cat 🐈</h1></strong>
+							<h3 id="currenttime"></h3>
+							<p id="weatherInfo" class="major"></p>
+							<p id="forecastInfo" class="major"></p>
+							<br>
+							<ul class="actions stacked">
+								<li><button onclick="refreshPage()" class="button big wide">MEOW?</button></li>
+							</ul>
+						</div>
+						<div class="image">
+							<img id="cat" src="" alt="" />
+						</div>
+					</section>
+			
+					<footer class="wrapper style1 align-center">
+						<div class="inner">
+							<p>&copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>. API: <a href="https://openweathermap.org/api">OpenWeather API</a>, <a href="https://thecatapi.com/">The Cat API</a>.</p>
+						</div>
+					</footer>
+			</div>
+
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script>
+				function refreshPage() {
+					location.reload();
+				}
+				
+				// fetch a random cat image from the API
+				fetch('https://api.thecatapi.com/v1/images/search')
+					.then(response => response.json())
+					.then(data => {
+						// update the src attribute of the cat image with the fetched image URL
+						document.getElementById('cat').src = data[0].url;
+					})
+					.catch(error => console.error('Error fetching cat image:', error));
+
+				// display current time
+				const currenttime = new Date().toLocaleString();
+				document.getElementById('currenttime').innerText = `datetime.now(): ${currenttime}, London`;
+
+				// fetch weather information
+				fetch('https://api.openweathermap.org/data/2.5/weather?lat=51.507351&lon=-0.127758&appid=93146e366d37fc681f5daf1f33371a50')
+					.then(response => response.json())
+					.then(weather => {
+						// Extract weather information
+						const weatherInfo = weather['weather'][0]['description'];
+						// Convert temperature to Celsius and round to 2 decimal places
+						const tempInfo = (weather['main']['temp'] - 273.15).toFixed(2); 
+						// Update the weather info paragraph
+						document.getElementById('weatherInfo').innerText = `\nThe weather outside is ${weatherInfo}, ${tempInfo}°C.`;
+					})
+					.catch(error => console.error('Error fetching weather information:', error));
+	
+				// fetch weather forcast information
+				fetch('https://api.openweathermap.org/data/2.5/forecast?lat=51.507351&lon=-0.127758&cnt=1&appid=93146e366d37fc681f5daf1f33371a50')
+					.then(response => response.json())
+					.then(forecast => {
+						// extract forecast information 
+						const forecastTime = forecast.list[0].dt_txt; // Time of the forecast
+						const forecastWeather = forecast.list[0].weather[0].description; // Forecasted weather description
+
+						// update the weather info paragraph
+						document.getElementById('forecastInfo').innerText += `By ${forecastTime}, the weather is expected to be ${forecastWeather}.`;
+					})
+					.catch(error => console.error('Error fetching weather forecast information:', error));
+			</script>
+
+	</body>
+</html>
