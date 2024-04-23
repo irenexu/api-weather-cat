@@ -1,4 +1,10 @@
-The template is obtained from html5up.net | @ajlkn
+# data-manipulation-and-analysis-api-weather-cat
+
+This repository contains code and templates for creating a simple webpage/application that displays the current time, weather, and forecast, along with some random cat images. It serves as supporting material for Exercise IV - Explore the Use of APIs & Image Analysis (https://github.com/irenexu/data-manipulation-and-analysis).
+
+# template
+
+The webpage template is obtained from html5up.net | @ajlkn
 
 Modification has been made to index.html only (both HTML and Javascript) to intergrate The Cat and Unsplash APIs.
 (ChatGPT has been used regarding how to using JavaScript Fetch API )
